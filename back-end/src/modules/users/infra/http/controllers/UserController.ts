@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
 import CreateUserService from '@modules/users/services/CreateUserService';
+import AuthenticateUserService from '@modules/users/services/AuthenticateUserService';
 
 export default class UserController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -26,5 +27,15 @@ export default class UserController {
     };
 
     return response.status(200).json(userWithoutPassword);
+  }
+
+  public async signUp(request: Request, response: Response): Promise<Response> {
+    const { username, password } = request.body;
+
+    const createSession = container.resolve(AuthenticateUserService);
+
+    const session = await createSession.execute({ username, password });
+
+    return response.status(200).json(session);
   }
 }
