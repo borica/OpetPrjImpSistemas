@@ -1,8 +1,9 @@
 import React, { InputHTMLAttributes, useEffect, useRef, useState, useCallback } from 'react';
 import { IconBaseProps } from 'react-icons';
+import { FiAlertCircle } from 'react-icons/fi';
 import { useField } from '@unform/core';
 
-import { Container } from './style';
+import { Container, Error } from './style';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     name: string;
@@ -33,12 +34,18 @@ const Input: React.FC<InputProps> = ({ name, icon: Icon, ...rest }) => {
     }, [fieldName, registerField]);
 
     return (
-        <Container isField={isField} isFocused={isFocused} >
+        <Container isErrored={!!error} isField={isField} isFocused={isFocused} >
             { Icon && <Icon size={20} />}
             <input defaultValue={defaultValue} 
             ref={inputRef} {...rest}
             onFocus={handleInputFocused} 
             onBlur={handleInputBlur} />
+
+            {error && (
+                <Error title={error} >
+                    <FiAlertCircle color='#c53030' size={20} />
+                </Error>
+            )}
         </Container>
     );
 };
