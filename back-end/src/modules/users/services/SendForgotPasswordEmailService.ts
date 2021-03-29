@@ -44,7 +44,7 @@ class SendForgotPasswordEmailService {
         file: forgotPasswordTemplate,
         variables: {
           name: user.name,
-          link: `http://localhost:3000/reset_password?email=${email}`,
+          link: `http://localhost:3000/reset-password?email=${email}`,
         },
       },
     });

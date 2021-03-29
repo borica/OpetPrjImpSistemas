@@ -4,6 +4,7 @@ import uploadConfig from '@config/upload';
 
 import ForgotPasswordController from '../controllers/ForgotPasswordController';
 import UserAvatarController from '../controllers/UpdateUserAvatarService';
+import ResetPasswordController from '../controllers/ResetPasswordController';
 
 import UserController from '../controllers/UserController';
 
@@ -13,12 +14,15 @@ const usersRouter = Router();
 const usersController = new UserController();
 const forgotPasswordController = new ForgotPasswordController();
 const userAvatarController = new UserAvatarController();
+const resetPasswordController = new ResetPasswordController();
 
 const upload = multer(uploadConfig);
 
 usersRouter.post('/', usersController.create);
 
 usersRouter.post('/forgot', forgotPasswordController.create);
+
+usersRouter.post('/reset', resetPasswordController.create);
 
 usersRouter.patch(
     '/avatar',
