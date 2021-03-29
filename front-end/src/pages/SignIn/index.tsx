@@ -42,7 +42,13 @@ const SignIn: React.FC = () => {
 
             await signIn({ username: data.username, password: data.password});
 
-            history.push('/dashboard')
+            history.push('/dashboard');
+
+            addToast({
+                type: 'success',
+                title: 'Login realizado com sucesso.',
+                description: 'Você já pode utilizar a rede social!'
+            })
         } catch (err) {
             if (err instanceof Yup.ValidationError) {
                 const errors = getValidationErrors(err);
