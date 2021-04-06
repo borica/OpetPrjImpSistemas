@@ -27,7 +27,7 @@ class UsersRepository implements IUsersRepository {
 
   public async findByUsername(username: string): Promise<User | undefined> {
     const findUser = await this.ormRepository.findOne({
-      where: { username },
+      where: { username }
     });
 
     return findUser;

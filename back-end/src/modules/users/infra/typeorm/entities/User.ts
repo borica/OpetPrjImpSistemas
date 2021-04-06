@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from "typeorm";
 
 import { Expose, Exclude } from 'class-transformer';
+import Course from "@modules/course/infra/typeorm/entities/Course";
 
 @Entity('users')
 class User {
@@ -23,8 +24,8 @@ class User {
     @Column()
     avatar: string;
 
-    /* @OneToMany()
-    course_id: Curse; */
+    @Column()
+    course_id: string;
 
     @CreateDateColumn()
     created_at: Date;

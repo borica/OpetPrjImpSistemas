@@ -18,16 +18,7 @@ export default class UserController {
       password
     });
 
-    const userWithoutPassword = {
-      id: user.id,
-      name: user.name,
-      username: user.username,
-      email: user.email,
-      created_at: user.created_at,
-      updated_at: user.updated_at,
-    };
-
-    return response.status(200).json(userWithoutPassword);
+    return response.status(200).json({ user: classToClass(user) });
   }
 
   public async signUp(request: Request, response: Response): Promise<Response> {
