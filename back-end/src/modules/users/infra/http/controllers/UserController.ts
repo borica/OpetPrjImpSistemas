@@ -7,7 +7,7 @@ import AuthenticateUserService from '@modules/users/services/AuthenticateUserSer
 
 export default class UserController {
   public async create(request: Request, response: Response): Promise<Response> {
-    const { name, username, email, password } = request.body;
+    const { name, username, email, password, birth_date } = request.body;
 
     const createUser = container.resolve(CreateUserService);
 
@@ -15,7 +15,8 @@ export default class UserController {
       name,
       username,
       email,
-      password
+      password,
+      birth_date
     });
 
     return response.status(200).json({ user: classToClass(user) });

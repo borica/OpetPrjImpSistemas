@@ -3,7 +3,7 @@ import multer from 'multer';
 import uploadConfig from '@config/upload';
 
 import ForgotPasswordController from '../controllers/ForgotPasswordController';
-import UserAvatarController from '../controllers/UpdateUserAvatarService';
+import UpdateUserAvatarController from '../controllers/UpdateUserAvatarController';
 import ResetPasswordController from '../controllers/ResetPasswordController';
 
 import UserController from '../controllers/UserController';
@@ -13,7 +13,7 @@ import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 const usersRouter = Router();
 const usersController = new UserController();
 const forgotPasswordController = new ForgotPasswordController();
-const userAvatarController = new UserAvatarController();
+const userAvatarController = new UpdateUserAvatarController();
 const resetPasswordController = new ResetPasswordController();
 
 const upload = multer(uploadConfig);

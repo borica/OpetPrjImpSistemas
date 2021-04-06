@@ -27,6 +27,9 @@ class User {
     @Column()
     course_id: string;
 
+    @Column('date')
+    birth_date: Date;
+
     @CreateDateColumn()
     created_at: Date;
 

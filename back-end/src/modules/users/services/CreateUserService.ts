@@ -1,5 +1,6 @@
 import { injectable, inject } from 'tsyringe';
 import { hash } from 'bcryptjs';
+import { parseISO } from 'date-fns';
 
 import AppError from '@shared/errors/AppError';
 
@@ -11,6 +12,7 @@ interface IRequest {
   username: string;
   email: string;
   password: string;
+  birth_date: string;
 }
 
 @injectable()
@@ -20,20 +22,29 @@ class CreateUserService {
     private usersRepository: IUsersRepository,
   ) {}
 
-  public async execute({ name, email, username, password }: IRequest): Promise<User> {
+  public async execute({ name, email, username, password, birth_date }: IRequest): Promise<User> {
     const checkUserExists = await this.usersRepository.findByEmail(email);
 
     if (checkUserExists) {
       throw new AppError('Email address already used.');
     }
 
+    const CheckUsernameExists = await this.usersRepository.findByUsername(username);
+
+    if (CheckUsernameExists) {
+      throw new AppError('Username address already used.');
+    }
+
     const hashedPassword = await hash(password, 8);
+
+    const userDate = new Date(birth_date);
 
     const user = await this.usersRepository.create({
       name,
       email,
       username,
       password: hashedPassword,
+      birth_date: userDate
     });
 
     return user;
