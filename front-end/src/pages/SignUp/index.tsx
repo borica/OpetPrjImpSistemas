@@ -1,5 +1,5 @@
-import React, { useCallback, useRef } from 'react';
-import { FiArrowLeft, FiUser, FiLock, FiMail, FiUserPlus } from 'react-icons/fi';
+import React, { useCallback, useMemo, useRef } from 'react';
+import { FiArrowLeft, FiUser, FiLock, FiMail, FiUserPlus, FiCalendar } from 'react-icons/fi';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
@@ -19,6 +19,12 @@ interface SignUpFormData {
     email: string;
     username: string;
     password: string;
+    birth_date: string;
+}
+
+interface ListAllCourses {
+    id: string;
+    course: string;
 }
 
 const SignUp: React.FC = () => {
@@ -41,7 +47,11 @@ const SignUp: React.FC = () => {
                 abortEarly: false,
             });
 
-            await api.post('/users', data);
+            const { username, password, name, email, birth_date } = data;
+
+            const birthDate = birth_date + " 00:00:00";
+
+            await api.post('/users', {username, password, name, email, birth_date: birthDate});
 
             history.push('/');
 
@@ -67,6 +77,14 @@ const SignUp: React.FC = () => {
         }
     }, [addToast, history]);
 
+    const options = useMemo(async () => {
+        const response = await api.get<ListAllCourses[]>('/courses');
+
+        const options = response.data.map((data) => data.course);
+
+        return options
+    }, []);
+
     return (
         <Container>
             <Background />
@@ -79,7 +97,8 @@ const SignUp: React.FC = () => {
                         <Input name='email' icon={FiMail} placeholder='E-mail' />
                         <Input name='username' icon={FiUserPlus} placeholder='Username' />
                         <Input name='password' icon={FiLock} type='password' placeholder='Senha' />
-
+                        <Input name='birth_date' icon={FiCalendar} type='date' placeholder='Data de nascimento' />
+                        {/* <Select options={options} /> */}
                         <Button type='submit'>Cadastrar</Button>
                     </Form>
 
