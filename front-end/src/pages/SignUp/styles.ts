@@ -66,6 +66,28 @@ export const AnimationContainer = styled.div`
             margin-right: 16px;
         }
     }
+
+    select {
+        background-color: #F0F0F5;
+        border: 2px solid ${shade(0.1, '#F0F0F5')};
+        border-radius: 10px;
+        padding: 16px;
+        width: 100%;
+        color: #00bfa6;
+        margin-top: 8px;
+        margin-bottom: 8px;
+        font-family: 'Roboto Slab', serif;
+        font-size: 16px;
+
+        -webkit-appearance: none;  /* Remove estilo padrão do Chrome */
+        -moz-appearance: none; /* Remove estilo padrão do FireFox */
+        appearance: none; /* Rem    ove estilo padrão do FireFox*/
+
+        .course {
+            border: 2px solid ${shade(0.1, '#F0F0F5')};
+            color: #666360;
+        }
+    }
 `;
 
 export const Background = styled.div`
