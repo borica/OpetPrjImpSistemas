@@ -13,6 +13,7 @@ interface IRequest {
   email: string;
   password: string;
   birth_date: string;
+  course_id: string;
 }
 
 @injectable()
@@ -22,7 +23,7 @@ class CreateUserService {
     private usersRepository: IUsersRepository,
   ) {}
 
-  public async execute({ name, email, username, password, birth_date }: IRequest): Promise<User> {
+  public async execute({ name, email, username, password, birth_date, course_id }: IRequest): Promise<User> {
     const checkUserExists = await this.usersRepository.findByEmail(email);
 
     if (checkUserExists) {
@@ -44,7 +45,8 @@ class CreateUserService {
       email,
       username,
       password: hashedPassword,
-      birth_date: userDate
+      birth_date: userDate,
+      course_id
     });
 
     return user;
