@@ -2,12 +2,11 @@ import "reflect-metadata";
 
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
-
 import 'express-async-errors';
 
-import uploadConfig from '@config/upload';
-
 import '@shared/database';
+
+import uploadConfig from '@config/upload';
 import '@shared/container';
 
 import routes from './routes';

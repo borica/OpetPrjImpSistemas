@@ -1,12 +1,34 @@
-# Use postgres/example user/password credentials
-version: '3.1'
+version: "3.9"
 
 services:
-  db:
+  database:
     image: postgres
+    container_name: database_openet
     restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
     ports: 
-       - 5432:5432
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=openet
+    volumes:
+      - pgdata:/data/postgres
+
+  app:
+    build: .
+    container_name: back-end_openet
+    restart: always
+    ports: 
+      - 3333:3333
+    volumes: 
+      - .:/usr/app
+    links: 
+      - database
+    depends_on:
+      - database
+
+
+
+volumes:
+  pgdata:
+    driver: local

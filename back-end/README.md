@@ -18,3 +18,9 @@
  - user_id
  - company
  - description
+
+
+ ## Iniciar o projeto rodar 
+# docker build -t openet . 
+
+# docker-compose up --build

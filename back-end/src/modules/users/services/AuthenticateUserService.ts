@@ -41,6 +41,8 @@ class AuthenticateUserService {
       user.password,
     );
 
+    
+
     if (!passwordMatched) {
       throw new AppError('Incorrect email/password combination', 401);
     }
