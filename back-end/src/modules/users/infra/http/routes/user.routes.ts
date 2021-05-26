@@ -24,11 +24,15 @@ usersRouter.post('/forgot', forgotPasswordController.create);
 
 usersRouter.post('/reset', resetPasswordController.create);
 
-usersRouter.patch(
-    '/avatar',
-    ensureAuthenticated,
-    upload.single('avatar'),
-    userAvatarController.update,
-  );
+usersRouter.use(ensureAuthenticated);
+
+usersRouter.patch('/avatar', upload.single('avatar'), userAvatarController.update);
+
+usersRouter.patch('/approved', usersController.approveUser);
+
+usersRouter.delete('/:id_user', usersController.deleteUser);
+
+usersRouter.get('/', usersController.listUsers);
+
 
 export default usersRouter;

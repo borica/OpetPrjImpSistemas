@@ -11,6 +11,12 @@ class UsersRepository implements IUsersRepository {
     this.ormRepository = getRepository(User);
   }
 
+  public async findUsers(): Promise<User[]> {
+    const users = await this.ormRepository.find({ where: { approved: false } });
+
+    return users;
+  }
+
   public async findById(id: string): Promise<User | undefined> {
     const findUser = await this.ormRepository.findOne(id);
 
@@ -43,6 +49,10 @@ class UsersRepository implements IUsersRepository {
 
   public async save(user: User): Promise<User> {
     return this.ormRepository.save(user);
+  }
+
+  public async delete(user: User): Promise<void> {
+    await this.ormRepository.remove(user);
   }
 }
 

@@ -41,10 +41,12 @@ class AuthenticateUserService {
       user.password,
     );
 
-    
-
     if (!passwordMatched) {
       throw new AppError('Incorrect email/password combination', 401);
+    }
+
+    if (!user.approved) {
+      throw new AppError('User has not been approved to login', 401);
     }
 
     const { secret, expiresIn } = authConfig.jwt;

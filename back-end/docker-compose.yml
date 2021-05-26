@@ -14,18 +14,26 @@ services:
     volumes:
       - pgdata:/data/postgres
 
-  app:
-    build: .
-    container_name: back-end_openet
-    restart: always
-    ports: 
-      - 3333:3333
-    volumes: 
-      - .:/usr/app
-    links: 
-      - database
-    depends_on:
-      - database
+  #redis: 
+  #  image: redis:alpine
+  #  container_name: redis_openet
+  #  ports: 
+  #    - 6379:6379
+#
+  #app:
+  #  build: .
+  #  container_name: back-end_openet
+  #  restart: always
+  #  ports: 
+  #    - 3333:3333
+  #  volumes: 
+  #    - .:/usr/app
+  #  links: 
+  #    - database
+  #    - redis
+  #  depends_on:
+  #    - database
+  #    - redis
 
 
 

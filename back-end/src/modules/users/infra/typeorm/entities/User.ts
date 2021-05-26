@@ -30,6 +30,12 @@ class User {
     @Column('date')
     birth_date: Date;
 
+    @Column('boolean')
+    isAdmin: boolean;
+
+    @Column('boolean')
+    approved: boolean;
+
     @CreateDateColumn()
     created_at: Date;
 
