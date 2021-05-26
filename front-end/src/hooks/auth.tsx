@@ -5,6 +5,7 @@ interface User {
     id: string;
     name: string;
     avatar_url: string;
+    isAdmin: boolean;
   }
 
 interface AuthState {

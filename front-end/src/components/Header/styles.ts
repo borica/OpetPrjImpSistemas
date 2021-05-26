@@ -1,7 +1,12 @@
 import styled from 'styled-components';
 import { shade } from 'polished';
 
-export const Container = styled.div``;
+export const Container = styled.div`
+    width: 100%;
+    height: 70px;
+    float: right;
+    position: fixed;
+`;
 
 export const HeaderBody = styled.header`
     padding: 32px 0;
@@ -10,7 +15,7 @@ export const HeaderBody = styled.header`
 
     > div {
         flex: 1;
-        margin-right: 450px 
+        margin-left: 300px 
     }
 `;
 

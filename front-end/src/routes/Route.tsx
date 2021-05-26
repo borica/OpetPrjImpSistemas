@@ -5,10 +5,11 @@ import { useAuth } from '../hooks/auth';
 
 interface RouteProps extends ReactRouteProps {
     isPrivate?: boolean;
+    isAdmin?: boolean;
     component: React.ComponentType
 }
 
-const Route: React.FC<RouteProps> = ({ isPrivate = false, component: Component, ...rest }) => {
+const Route: React.FC<RouteProps> = ({ isPrivate = false, isAdmin = false, component: Component, ...rest }) => {
     const { user } = useAuth();
 
     return (
