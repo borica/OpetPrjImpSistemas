@@ -6,6 +6,7 @@ const courseRouter = Router();
 const courseController = new CourseController();
 
 courseRouter.get('/', courseController.findAll);
+courseRouter.get('/:id', courseController.findById);
 
 
 export default courseRouter;
