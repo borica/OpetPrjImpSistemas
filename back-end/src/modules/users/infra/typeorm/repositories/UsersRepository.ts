@@ -22,6 +22,12 @@ class UsersRepository implements IUsersRepository {
     return users;
   }
 
+  public async findAllUsersSimilar(course_id: string): Promise<User[]> {
+    const users = await this.ormRepository.find({ where: { approved: true, course_id: course_id } });
+
+    return users;
+  }
+
   public async findById(id: string): Promise<User | undefined> {
     const findUser = await this.ormRepository.findOne(id);
 

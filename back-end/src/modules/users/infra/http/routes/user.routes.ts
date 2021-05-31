@@ -36,4 +36,7 @@ usersRouter.get('/disapproved', usersController.listUnapprovedUsers);
 
 usersRouter.get('/approved', usersController.listApprovedUsers);
 
+usersRouter.get('/', usersController.listSimilarUsers);
+
+
 export default usersRouter;

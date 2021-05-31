@@ -8,6 +8,7 @@ import ApprovedUserService from '@modules/users/services/ApprovedUserService';
 import DeleteUserService from '@modules/users/services/DeleteUserService';
 import ListUnapprovedUsersService from '@modules/users/services/ListUnapprovedUsersService';
 import ListApprovedUsersService from '@modules/users/services/ListApprovedUsersService';
+import ListSimilarUsersService from '@modules/users/services/ListSimilarUsersService';
 
 export default class UserController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -50,8 +51,6 @@ export default class UserController {
   public async deleteUser(request: Request, response: Response): Promise<Response> {
     const { user_id } = request.params;
 
-    console.log(user_id)
-
     const deleteUser = container.resolve(DeleteUserService);
 
     await deleteUser.execute({ user_id });
@@ -71,6 +70,16 @@ export default class UserController {
     const listApprovedUsers = container.resolve(ListApprovedUsersService);
 
     const users = await listApprovedUsers.execute();
+
+    return response.status(200).json({ users });
+  }
+
+  public async listSimilarUsers(request: Request, response: Response): Promise<Response> {
+    const { id } = request.user;
+    
+    const listSimilarUsers = container.resolve(ListSimilarUsersService);
+
+    const users = await listSimilarUsers.execute(id);
 
     return response.status(200).json({ users });
   }
