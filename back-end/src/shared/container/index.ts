@@ -6,6 +6,9 @@ import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepo
 import ICoursesRepository from '@modules/course/repositories/ICoursesRepository';
 import CoursesRepository from '@modules/course/infra/typeorm/repositories/CoursesRepository';
 
+import IFriendsRepository from '@modules/friends/repositories/IFriendsRepository';
+import FriendsRepository from '@modules/friends/infra/typeorm/repositories/FriendsRepository';
+
 import EtherealMailProvider from './providers/MailProvider/implementations/EtherealMailProvider';
 import IMailProvider from './providers/MailProvider/models/IMailProvider';
 
@@ -31,12 +34,17 @@ container.registerSingleton<ICoursesRepository>(
   CoursesRepository,
 );
 
+container.registerSingleton<IFriendsRepository>(
+  'FriendsRepository',
+  FriendsRepository,
+);
+
 container.registerSingleton<IMailTemplateProvider>(
-    'MailTemplateProvider',
-    HandlebarsMailTemplateProvider,
-  );
-  
-  container.registerInstance<IMailProvider>(
-    'MailProvider',
-    container.resolve(EtherealMailProvider),
-  );
+  'MailTemplateProvider',
+  HandlebarsMailTemplateProvider,
+);
+
+container.registerInstance<IMailProvider>(
+  'MailProvider',
+  container.resolve(EtherealMailProvider),
+);
