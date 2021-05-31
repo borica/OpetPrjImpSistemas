@@ -6,7 +6,8 @@ import CreateUserService from '@modules/users/services/CreateUserService';
 import AuthenticateUserService from '@modules/users/services/AuthenticateUserService';
 import ApprovedUserService from '@modules/users/services/ApprovedUserService';
 import DeleteUserService from '@modules/users/services/DeleteUserService';
-import ListUsersService from '@modules/users/services/ListUsersService';
+import ListUnapprovedUsersService from '@modules/users/services/ListUnapprovedUsersService';
+import ListApprovedUsersService from '@modules/users/services/ListApprovedUsersService';
 
 export default class UserController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -58,10 +59,18 @@ export default class UserController {
     return response.status(200).send();
   }
 
-  public async listUsers(request: Request, response: Response): Promise<Response> {
-    const listUsers = container.resolve(ListUsersService);
+  public async listUnapprovedUsers(request: Request, response: Response): Promise<Response> {
+    const listUnapprovedUsers = container.resolve(ListUnapprovedUsersService);
 
-    const users = await listUsers.execute();
+    const users = await listUnapprovedUsers.execute();
+
+    return response.status(200).json({ users });
+  }
+
+  public async listApprovedUsers(request: Request, response: Response): Promise<Response> {
+    const listApprovedUsers = container.resolve(ListApprovedUsersService);
+
+    const users = await listApprovedUsers.execute();
 
     return response.status(200).json({ users });
   }

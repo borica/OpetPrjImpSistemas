@@ -4,17 +4,17 @@ import User from '../infra/typeorm/entities/User';
 import IUsersRepository from '../repositories/IUsersRepository';
 
 @injectable()
-class ListUsersService {
+class ListApprovedUsersService {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
   ) {}
 
   public async execute(): Promise<User[]> {
-    const users = await this.usersRepository.findUsers();
+    const users = await this.usersRepository.findAllUsersApproved();
 
     return users;
   }
 }
 
-export default ListUsersService;
+export default ListApprovedUsersService;

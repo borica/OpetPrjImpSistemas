@@ -32,7 +32,8 @@ usersRouter.patch('/approved', usersController.approveUser);
 
 usersRouter.delete('/:id_user', usersController.deleteUser);
 
-usersRouter.get('/', usersController.listUsers);
+usersRouter.get('/disapproved', usersController.listUnapprovedUsers);
 
+usersRouter.get('/approved', usersController.listApprovedUsers);
 
 export default usersRouter;

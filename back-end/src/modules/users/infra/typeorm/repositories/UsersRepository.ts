@@ -11,8 +11,13 @@ class UsersRepository implements IUsersRepository {
     this.ormRepository = getRepository(User);
   }
 
-  public async findUsers(): Promise<User[]> {
+  public async findUnwantedUsers(): Promise<User[]> {
     const users = await this.ormRepository.find({ where: { approved: false } });
+
+    return users;
+  }
+  public async findAllUsersApproved(): Promise<User[]> {
+    const users = await this.ormRepository.find({ where: { approved: true } });
 
     return users;
   }
