@@ -7,7 +7,7 @@ export default class SeedCourse1621899990539 implements MigrationInterface {
             .insert().into('courses')
             .values([
                 { course: 'Administração', time_course: 8 },
-                { course: 'Análise Desenvolvimento De Sistema', time_course: 5 },
+                { id: 'da1d1fd8-70b3-4d8f-85a5-c44d3a357ab2', course: 'Análise Desenvolvimento De Sistema', time_course: 5 },
                 { course: 'Arquitetura e Urbanismo', time_course: 10 },
                 { course: 'Biomedicina', time_course: 8 },
                 { course: 'Ciências Contábeis', time_course: 8 },

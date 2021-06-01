@@ -1,8 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from "typeorm";
 
 import { Expose, Exclude } from 'class-transformer';
-import Course from "@modules/course/infra/typeorm/entities/Course";
-
 @Entity('users')
 class User {
     @PrimaryGeneratedColumn('uuid')
