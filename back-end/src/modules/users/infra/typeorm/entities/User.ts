@@ -1,6 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, JoinColumn, ManyToOne } from "typeorm";
 
 import { Expose, Exclude } from 'class-transformer';
+
+import Course from "@modules/course/infra/typeorm/entities/Course";
 @Entity('users')
 class User {
     @PrimaryGeneratedColumn('uuid')
@@ -22,7 +24,8 @@ class User {
     @Column()
     avatar: string;
 
-    @Column()
+    @ManyToOne(() => Course)
+    @JoinColumn({ name: 'course_id' })
     course_id: string;
 
     @Column('date')
