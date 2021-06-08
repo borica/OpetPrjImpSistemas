@@ -59,7 +59,13 @@ class CreateUserService {
       course_id
     });
 
-    return user;
+    const findUser = await this.usersRepository.findById(user.id);
+
+    if (!findUser) {
+      throw new AppError('Erro no cadastro.');
+    }
+
+    return findUser;
   }
 }
 
