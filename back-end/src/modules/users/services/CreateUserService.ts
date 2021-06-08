@@ -6,6 +6,7 @@ import AppError from '@shared/errors/AppError';
 
 import User from '../infra/typeorm/entities/User';
 import IUsersRepository from '../repositories/IUsersRepository';
+import ICoursesRepository from '@modules/course/repositories/ICoursesRepository';
 
 interface IRequest {
   name: string;
@@ -21,6 +22,9 @@ class CreateUserService {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
+
+    @inject('CoursesRepository')
+    private coursesRepository: ICoursesRepository,
   ) {}
 
   public async execute({ name, email, username, password, birth_date, course_id }: IRequest): Promise<User> {
@@ -34,6 +38,12 @@ class CreateUserService {
 
     if (CheckUsernameExists) {
       throw new AppError('Username address already used.');
+    }
+
+    const checkCourseExists = await this.coursesRepository.findById(course_id);
+
+    if (!checkCourseExists) {
+      throw new AppError('Course does not exist.');
     }
 
     const hashedPassword = await hash(password, 8);
