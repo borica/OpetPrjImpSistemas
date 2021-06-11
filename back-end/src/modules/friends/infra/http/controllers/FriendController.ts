@@ -14,9 +14,9 @@ export default class FriendController {
 
     const inviteNewFriend = container.resolve(InviteNewFriendService);
 
-    await inviteNewFriend.execute({ user_id: id, friend_id });
+    const friendResponse = await inviteNewFriend.execute({ user_id: id, friend_id });
 
-    return response.status(200).json({ message: 'Friend request sent' });
+    return response.status(200).json(friendResponse);
   }
 
   public async accept(request: Request, response: Response): Promise<Response> {

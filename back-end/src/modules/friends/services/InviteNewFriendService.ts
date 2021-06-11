@@ -2,6 +2,8 @@ import { injectable, inject } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
 
+import Friends from '../infra/typeorm/entities/Friends';
+
 import IFriendsRepository from '../repositories/IFriendsRepository';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 
@@ -20,7 +22,7 @@ class InviteNewFriendService {
     private usersRepository: IUsersRepository,
   ) {}
 
-  public async execute({ user_id, friend_id }: IRequest): Promise<void> {
+  public async execute({ user_id, friend_id }: IRequest): Promise<Friends> {
     const user = await this.usersRepository.findById(user_id);
 
     if (!user) {
@@ -39,7 +41,9 @@ class InviteNewFriendService {
       throw new AppError('Friend request already exists.');
     }
 
-    await this.friendsRepository.create({ user: user_id, friend: friend_id, accept: false });
+    const friendResponse = await this.friendsRepository.create({ user: user_id, friend: friend_id, accept: false });
+
+    return friendResponse;
   }
 }
 

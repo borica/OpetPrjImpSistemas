@@ -24,6 +24,7 @@ class User {
     @Column()
     avatar: string;
 
+    @Expose({ name: 'course' })
     @ManyToOne(() => Course)
     @JoinColumn({ name: 'course_id' })
     course_id: string;

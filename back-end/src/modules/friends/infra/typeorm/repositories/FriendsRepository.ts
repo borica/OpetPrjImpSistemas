@@ -3,6 +3,8 @@ import { getRepository, Repository } from 'typeorm';
 import IFriendsRepository from '@modules/friends/repositories/IFriendsRepository';
 import Friends from '../entities/Friends';
 
+import { classToClass } from 'class-transformer';
+
 import ICreateFriendDTO from '@modules/friends/dtos/ICreateFriendDTO';
 
 class FriendsRepository implements IFriendsRepository {
@@ -18,10 +20,18 @@ class FriendsRepository implements IFriendsRepository {
       return friends;
   }
 
-  public async create(friendData: ICreateFriendDTO): Promise<void> {
+  public async findFriendsAcceptByUserId(id: string): Promise<Friends[]> {
+    const friends = await this.ormRepository.find({ where: { friend: id, accept: true }, relations: ['user'] });
+    
+    return friends;
+}
+
+  public async create(friendData: ICreateFriendDTO): Promise<Friends> {
     const friend = this.ormRepository.create(friendData);
 
     await this.ormRepository.save(friend);
+
+    return friend;
   }
 
   public async save(friend: Friends): Promise<void> {
@@ -39,9 +49,9 @@ class FriendsRepository implements IFriendsRepository {
   }
 
   public async findPendingFriendsByUserId(user_id: string): Promise<Friends[]> {
-    const friends = await this.ormRepository.find({ where: { friend: user_id, accept: false }, relations: ['friend'] });
-
-    return friends;
+    const friends = await this.ormRepository.find({ where: { friend: user_id, accept: false }, relations: ['user'] });
+    
+    return classToClass(friends);
   }
 
   public async findFriendRequestExistent(user_id: string, friend_id: string): Promise<Friends | undefined> {
