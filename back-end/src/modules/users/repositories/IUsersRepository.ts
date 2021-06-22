@@ -6,7 +6,7 @@ export default interface IUsersRepository {
     create(data: CreateUserDTO): Promise<User>
     save(user: User): Promise<User>;
     findUnwantedUsers(): Promise<User[]>;
-    findAllUsersApproved(): Promise<User[]>;
+    findAllUsersApproved(user: User): Promise<User[]>;
     findAllUsersSimilar(course_id: string): Promise<User[]>;
     findById(id: string): Promise<User | undefined>;
     findByEmail(email: string): Promise<User | undefined>

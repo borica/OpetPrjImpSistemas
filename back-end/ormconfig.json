@@ -6,7 +6,7 @@
     "password": "postgres",
     "database": "openet",
     "entities": [
-      "./src/modules/**/entities/*.ts"
+      "./src/modules/**/infra/typeorm/entities/*.ts"
     ],
     "migrations": [
       "./src/shared/database/migrations/*.ts"

@@ -10,6 +10,19 @@ interface IRequest {
   user_id: string;
 }
 
+interface IResponse {
+  id: string,
+  name: string,
+  username: string,
+  email: string,
+  avatar: string,
+  birth_date: string,
+  isAdmin: Boolean,
+  approved: Boolean,
+  created_at: string,
+  updated_at: string 
+}
+
 @injectable()
 class ListAllFriendsService {
   constructor(
@@ -20,20 +33,29 @@ class ListAllFriendsService {
     private usersRepository: IUsersRepository,
   ) {}
 
-  public async execute({ user_id }: IRequest): Promise<Friends[]> {
-    const friends = await this.friendsRepository.findFriendsAcceptByUserId(user_id);
+  public async execute({ user_id }: IRequest): Promise<IResponse[]> {
+    const friends = await this.friendsRepository.findFriendsByUserId(user_id);
 
     if (!friends) {
       throw new AppError('Friend request not found.');
     }
 
-    await Promise.all(friends.map(async (friend) => {
-      const user = await this.usersRepository.findById(friend.user.id);
-      delete user?.password;
-      friend.user = user;
-  }));
+    const responseFriends: IResponse[] = [];
 
-    return friends;
+    friends.map(friend => {
+      if (friend.user.id === user_id) {
+        delete friend.user;
+        responseFriends.push(Object.assign({friend: friend.friend}));
+      } 
+
+      if (friend.friend.id === user_id) {
+        delete friend.friend;
+        responseFriends.push(Object.assign({friend: friend.user}));
+      }
+
+    })
+
+    return responseFriends;
   }
 }
 

@@ -67,9 +67,10 @@ export default class UserController {
   }
 
   public async listApprovedUsers(request: Request, response: Response): Promise<Response> {
+    const { id } = request.user;
     const listApprovedUsers = container.resolve(ListApprovedUsersService);
 
-    const users = await listApprovedUsers.execute();
+    const users = await listApprovedUsers.execute(id);
 
     return response.status(200).json({ users });
   }

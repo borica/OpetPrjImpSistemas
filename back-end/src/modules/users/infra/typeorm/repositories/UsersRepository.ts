@@ -1,4 +1,4 @@
-import { getRepository, Repository } from 'typeorm';
+import { getRepository, Repository, Not } from 'typeorm';
 
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
@@ -16,8 +16,8 @@ class UsersRepository implements IUsersRepository {
 
     return users;
   }
-  public async findAllUsersApproved(): Promise<User[]> {
-    const users = await this.ormRepository.find({ where: { approved: true }, relations: ['course_id']});
+  public async findAllUsersApproved(user: User): Promise<User[]> {
+    const users = await this.ormRepository.find({ where: { approved: true, course_id: Not(user.course_id.id) }, relations: ['course_id']});
 
     return users;
   }
