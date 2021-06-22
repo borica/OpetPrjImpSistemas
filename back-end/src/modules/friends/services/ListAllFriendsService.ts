@@ -24,17 +24,21 @@ interface IArray {
 }
 
 interface IResponse {
-  id: string,
-  name: string,
-  username: string,
-  email: string,
-  avatar: string,
-  birth_date: string,
-  course_id: string,
-  isAdmin: Boolean,
-  approved: Boolean,
-  created_at: string,
-  updated_at: string 
+  users: [
+    {
+      id: string,
+      name: string,
+      username: string,
+      email: string,
+      avatar: string,
+      birth_date: string,
+      course_id: string,
+      isAdmin: Boolean,
+      approved: Boolean,
+      created_at: string,
+      updated_at: string 
+    }
+  ]
 }
 
 @injectable()
@@ -58,7 +62,8 @@ class ListAllFriendsService {
     }
 
     const array: IArray[] = [];
-    const responseFriends: IResponse[] = [];
+    const responseFriends: IResponse[] = [ ];
+    const users = {}
 
     friends.map(friend => {
       if (friend.user.id === user_id) {
@@ -75,10 +80,10 @@ class ListAllFriendsService {
     await Promise.all(array.map(async (friend) => {
       console.log(friend);
       const user = await this.usersRepository.findById(friend.user.id);
-      console.log(user)
+
       if (user) {
-        delete user?.password;
-        responseFriends.push(Object.assign({user: user}));
+        delete user.password;
+        responseFriends.push(Object.assign(user));
       }
 
     }))

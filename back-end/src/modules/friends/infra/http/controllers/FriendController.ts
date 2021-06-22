@@ -36,7 +36,7 @@ export default class FriendController {
 
     const friends = await listAllFriends.execute({ user_id: id });
 
-    return response.status(200).json(friends);
+    return response.status(200).json({ users: friends });
   }
 
   public async listPending(request: Request, response: Response): Promise<Response> {
