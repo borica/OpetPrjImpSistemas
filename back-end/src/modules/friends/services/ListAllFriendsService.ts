@@ -4,10 +4,23 @@ import AppError from '@shared/errors/AppError';
 
 import IFriendsRepository from '../repositories/IFriendsRepository';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
-import Friends from '../infra/typeorm/entities/Friends';
+import ICoursesRepository from '@modules/course/repositories/ICoursesRepository';
 
 interface IRequest {
   user_id: string;
+}
+
+interface IArray {
+  id: string,
+  name: string,
+  username: string,
+  email: string,
+  avatar: string,
+  birth_date: string,
+  isAdmin: Boolean,
+  approved: Boolean,
+  created_at: string,
+  updated_at: string 
 }
 
 interface IResponse {
@@ -17,6 +30,7 @@ interface IResponse {
   email: string,
   avatar: string,
   birth_date: string,
+  course_id: string,
   isAdmin: Boolean,
   approved: Boolean,
   created_at: string,
@@ -31,6 +45,9 @@ class ListAllFriendsService {
 
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
+
+    @inject('CoursesRepository')
+    private coursesRepository: ICoursesRepository,
   ) {}
 
   public async execute({ user_id }: IRequest): Promise<IResponse[]> {
@@ -40,20 +57,31 @@ class ListAllFriendsService {
       throw new AppError('Friend request not found.');
     }
 
+    const array: IArray[] = [];
     const responseFriends: IResponse[] = [];
 
     friends.map(friend => {
       if (friend.user.id === user_id) {
         delete friend.user;
-        responseFriends.push(Object.assign({friend: friend.friend}));
+        array.push(Object.assign({user: friend.friend}));
       } 
 
       if (friend.friend.id === user_id) {
         delete friend.friend;
-        responseFriends.push(Object.assign({friend: friend.user}));
+        array.push(Object.assign({user: friend.user}));
+      }
+    });
+
+    await Promise.all(array.map(async (friend) => {
+      console.log(friend);
+      const user = await this.usersRepository.findById(friend.user.id);
+      console.log(user)
+      if (user) {
+        delete user?.password;
+        responseFriends.push(Object.assign({user: user}));
       }
 
-    })
+    }))
 
     return responseFriends;
   }

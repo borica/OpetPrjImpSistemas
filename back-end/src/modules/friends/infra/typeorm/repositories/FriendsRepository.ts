@@ -16,7 +16,7 @@ class FriendsRepository implements IFriendsRepository {
 
   public async findFriendsByUserId(id: string): Promise<Friends[]> {
       const friends = await this.ormRepository.find({ where: [{ user: id }, { friend: id }], relations: ['friend', 'user'] });
-
+      
       return friends;
   }
 
