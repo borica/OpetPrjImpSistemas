@@ -28,7 +28,6 @@ class ListApprovedUsersService {
     const friends = await this.friendsRepository.findFriendsAcceptByUserId(user.id);
     
     users.map(user => {
-      console.log(user.id)
       friends.map(friend => {
         console.log(friend.user.id)
         if (user.id === friend.user.id) {

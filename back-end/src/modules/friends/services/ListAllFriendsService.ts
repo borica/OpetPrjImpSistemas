@@ -4,7 +4,6 @@ import AppError from '@shared/errors/AppError';
 
 import IFriendsRepository from '../repositories/IFriendsRepository';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
-import ICoursesRepository from '@modules/course/repositories/ICoursesRepository';
 
 interface IRequest {
   user_id: string;
@@ -49,9 +48,6 @@ class ListAllFriendsService {
 
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
-
-    @inject('CoursesRepository')
-    private coursesRepository: ICoursesRepository,
   ) {}
 
   public async execute({ user_id }: IRequest): Promise<IResponse[]> {

@@ -3,12 +3,15 @@ import { getRepository, Repository, Not } from 'typeorm';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
 import User from '../entities/User';
+import Friends from '@modules/friends/infra/typeorm/entities/Friends';
 
 class UsersRepository implements IUsersRepository {
   private ormRepository: Repository<User>;
+  private friendOrmRepository: Repository<Friends>;
 
   constructor() {
     this.ormRepository = getRepository(User);
+    this.friendOrmRepository = getRepository(Friends);
   }
 
   public async findUnwantedUsers(): Promise<User[]> {
@@ -17,13 +20,29 @@ class UsersRepository implements IUsersRepository {
     return users;
   }
   public async findAllUsersApproved(user: User): Promise<User[]> {
-    const users = await this.ormRepository.find({ where: { approved: true, course_id: Not(user.course_id.id) }, relations: ['course_id']});
+    const users = await this.ormRepository.find({ relations: ['course_id'], where: { approved: true, course_id: Not(user.course_id.id) }});
+    console.log(users);
+    await Promise.all(users.map(async (findUser) => {
+      const friend = await this.friendOrmRepository.findOne({ where: [{ friend: findUser.id }, { user: findUser.id }] });
+      console.log(friend);
+      if (friend) {
+        users.splice(users.indexOf(user), 1);
+      }
+    }));
 
     return users;
   }
 
   public async findAllUsersSimilar(course_id: string): Promise<User[]> {
-    const users = await this.ormRepository.find({ where: { approved: true, course_id: course_id }, relations: ['course_id'] });
+    const users = await this.ormRepository.find({ where: { approved: true, course_id: course_id }, relations: ['course_id', ] });
+
+    await Promise.all(users.map(async (user) => {
+      const friend = await this.friendOrmRepository.findOne({ where: [{ friend: user.id }, { user: user.id }] });
+      
+      if (friend) {
+        users.splice(users.indexOf(user), 1);
+      }
+    }));
 
     return users;
   }
