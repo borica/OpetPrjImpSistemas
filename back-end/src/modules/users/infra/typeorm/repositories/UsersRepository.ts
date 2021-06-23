@@ -21,12 +21,14 @@ class UsersRepository implements IUsersRepository {
   }
   public async findAllUsersApproved(user: User): Promise<User[]> {
     const users = await this.ormRepository.find({ relations: ['course_id'], where: { approved: true, course_id: Not(user.course_id.id) }});
-    console.log(users);
+    
     await Promise.all(users.map(async (findUser) => {
       const friend = await this.friendOrmRepository.findOne({ where: [{ friend: findUser.id }, { user: findUser.id }] });
-      console.log(friend);
       if (friend) {
-        users.splice(users.indexOf(user), 1);
+        console.log('sou seu amigo: ' + findUser.username)
+        users.splice(users.indexOf(findUser), 1);
+      } else {
+        console.log('nao sou seu amigo: ' + findUser.username)
       }
     }));
 
@@ -40,7 +42,10 @@ class UsersRepository implements IUsersRepository {
       const friend = await this.friendOrmRepository.findOne({ where: [{ friend: user.id }, { user: user.id }] });
       
       if (friend) {
+        console.log('sou seu amigo: ' + user.username)
         users.splice(users.indexOf(user), 1);
+      } else {
+        console.log('nao sou seu amigo: ' + user.username)
       }
     }));
 
